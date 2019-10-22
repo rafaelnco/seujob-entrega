@@ -1,0 +1,6 @@
+yarn build
+cp build/* git/. -R
+cd git
+rm precache*
+rm **/*.map
+git add . && git commit -m "base" && git push 
