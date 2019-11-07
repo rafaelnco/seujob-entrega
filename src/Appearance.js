@@ -1,4 +1,8 @@
-import { generator, applyAll, defaults } from "barestyle";
+import { generator, applyVariants, defaults, assemble } from "barestyle";
+
+import { merge } from "barestyle/utils";
+
+import { useMouse } from "./Hooks";
 
 const { color, scale } = defaults.types;
 
@@ -6,9 +10,13 @@ const unit = value => `${value}vmax`;
 
 const variations = {};
 
-const proprietaryDefinitions = {
+const spacing = spacing => ({ spacing: 5 * spacing });
+
+spacing.base = "dimension";
+
+const proprietary = {
   types: {
-    spacing: spacing => ({ spacing: 5 * spacing }),
+    spacing,
     unit
   },
   values: {
@@ -38,25 +46,58 @@ const proprietaryDefinitions = {
 
 const availableThemes = [
   {
-    primary: "#000000",
-    secondary: "#ffffff",
-    link: "#4169e1"
+    values: {
+      pallete: {
+        primary: "#000000",
+        secondary: "#ffffff",
+        link: "#4169e1"
+      }
+    }
   },
   {
-    primary: "#ffffff",
-    secondary: "#000000",
-    link: "#ffcc00"
+    values: {
+      pallete: {
+        primary: "#ffffff",
+        secondary: "#000000",
+        link: "#ffcc00"
+      }
+    }
   }
 ];
 
-const applyVariations = props => applyAll(variations, props);
+const hook = hook => ({ hook });
 
-const applyTheme = (theme, definitions = proprietaryDefinitions) => {
-  const pallete = Object.assign({}, definitions.values.pallete, theme);
-  const values = Object.assign({}, definitions.values, { pallete });
-  return Object.assign(variations, generator({ ...definitions, values }));
+const hooks = generator({
+  types: { hook },
+  values: {
+    hooks: {
+      mouse: hook(useMouse)
+    }
+  },
+  rules: {
+    hooks: { use: ["action"] }
+  },
+  variants: ({ rules, values }) => ({
+    hooks: [rules.hooks, values.hooks]
+  }),
+  transformers: ({}) => [
+    {
+      type: "properties",
+      parameters: ["hook"],
+      transformation: ({ hook }) => ({ hook })
+    }
+  ]
+});
+
+let assembledVariations = assemble(variations, hooks);
+
+const applyVariations = props => applyVariants(assembledVariations, props);
+
+const applyTheme = (theme, definitions = proprietary) => {
+  Object.assign(variations, generator(merge(definitions, theme)));
+  assembledVariations = assemble(variations, hooks);
 };
 
 applyTheme(availableThemes[0]);
 
-export { applyVariations, unit, applyTheme, availableThemes };
+export { applyVariants, applyVariations, unit, applyTheme, availableThemes };
