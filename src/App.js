@@ -114,8 +114,8 @@ function App() {
     setTimeout(() => removeNotification(id), 5000);
   }, []);
   return (
-    <Section vertical style={{ height: "100%" }} secondary-background>
-      <Section horizontal align-center normal-shadow style={{ zIndex: 99 }}>
+    <Section vertical full-height secondary-background>
+      <Section horizontal align-center normal-shadow two-apex>
         <Section
           sub-padding
           small-padding-horizontal
@@ -138,9 +138,8 @@ function App() {
                 disabled-foreground
                 value={filter}
                 onChange={inputEvent(useFilter)}
-              >
-                Pesquise aqui...
-              </Input>
+                placeholder="Pesquise aqui..."
+              />
             </Section>
             <Section
               align-center
@@ -179,23 +178,21 @@ function App() {
         <Section
           transparent-background
           normal-padding
-          style={{
-            zIndex: 99,
-            position: "absolute",
-            bottom: 0,
-            pointerEvents: "none"
-          }}
+          zero-bottom
+          no-events
+          absolute
+          two-apex
         >
           {notifications.map(({ text, id }) => {
             return (
               <Section
                 key={id}
-                link-background
-                style={{ pointerEvents: "all" }}
+                all-events
                 small-padding
-                monumental-round
                 normal-shadow
                 pointer-cursor
+                link-background
+                monumental-round
                 pressOut={() => removeNotification(id)}
               >
                 <Text big-text secondary-foreground>
