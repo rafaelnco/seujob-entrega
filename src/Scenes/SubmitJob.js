@@ -79,9 +79,7 @@ const SubmitJob = ({ submit, refresh }) => {
         <Section small-padding horizontal>
           <Text giant-text>
             Preencha os campos até obterem{" "}
-            <Text TagType="span" link-foreground>
-              essa coloração
-            </Text>
+            <Text.Span link-foreground>essa coloração</Text.Span>
           </Text>
         </Section>
         {fields.map(({ name, title, length, validate, transform }) => {
@@ -91,6 +89,7 @@ const SubmitJob = ({ submit, refresh }) => {
               <Input
                 giant-text
                 value={form[name]}
+                placeholder={title}
                 link-foreground={valid}
                 italic-font={!valid}
                 disabled-foreground={!valid}
@@ -100,9 +99,7 @@ const SubmitJob = ({ submit, refresh }) => {
                     [name]: (transform && transform(text)) || text
                   });
                 })}
-              >
-                {title}
-              </Input>
+              />
             </Section>
           );
         })}
