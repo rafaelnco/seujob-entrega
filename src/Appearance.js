@@ -8,8 +8,6 @@ const { color, scale } = defaults.types;
 
 const unit = value => `${value}vmax`;
 
-const variations = {};
-
 const spacing = spacing => ({ spacing: 5 * spacing });
 
 spacing.base = "dimension";
@@ -89,15 +87,19 @@ const hooks = generator({
   ]
 });
 
-let assembledVariations = assemble(variations, hooks);
+let variations = {};
 
-const applyVariations = props => applyVariants(assembledVariations, props);
+const applyVariations = props => applyVariants(variations, props);
 
-const applyTheme = (theme, definitions = proprietary) => {
-  Object.assign(variations, generator(merge(definitions, theme)));
-  assembledVariations = assemble(variations, hooks);
+const doApplyTheme = (theme, definitions = proprietary) =>
+  assemble(Object.assign({}, generator(merge(definitions, theme)), hooks));
+
+const assembledVariations = availableThemes.map(theme => doApplyTheme(theme));
+
+const applyTheme = index => {
+  variations = assembledVariations[index];
 };
 
-applyTheme(availableThemes[0]);
+applyTheme(0);
 
 export { applyVariants, applyVariations, unit, applyTheme, availableThemes };
