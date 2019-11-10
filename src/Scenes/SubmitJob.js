@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Section, Text, Input } from "../Components";
+import { Box, Text, Input } from "../Components";
 import {
   transformText,
   validateText,
@@ -74,18 +74,18 @@ const SubmitJob = ({ submit, refresh }) => {
     }
   }, [form]);
   return (
-    <Section full justify-center flow>
-      <Section flex={0.6} style={{ height: "100%" }} normal-padding vertical>
-        <Section small-padding horizontal>
+    <Box full-flex justify-center flow>
+      <Box flex={0.6} style={{ height: "100%" }} normal-padding vertical>
+        <Box small-padding horizontal>
           <Text giant-text>
             Preencha os campos até obterem{" "}
             <Text.Span link-foreground>essa coloração</Text.Span>
           </Text>
-        </Section>
+        </Box>
         {fields.map(({ name, title, length, validate, transform }) => {
           const valid = validate({ string: form[name], length });
           return (
-            <Section sub-padding sub-margin monumental-round normal-shadow>
+            <Box sub-padding sub-margin monumental-radius normal-shadow>
               <Input
                 giant-text
                 value={form[name]}
@@ -100,26 +100,26 @@ const SubmitJob = ({ submit, refresh }) => {
                   });
                 })}
               />
-            </Section>
+            </Box>
           );
         })}
-        <Section
+        <Box
           disabled-background={!allValid}
           normal-shadow={allValid}
           link-background={allValid}
           sub-padding
           sub-margin
-          monumental-round
+          monumental-radius
           pointer-cursor
           pressOut={() => allValid && submit({ ...form, callback: refresh })}
         >
           <Text giant-text secondary-foreground>
             Submeter
           </Text>
-        </Section>
-        <Section normal-padding />
-      </Section>
-    </Section>
+        </Box>
+        <Box normal-padding />
+      </Box>
+    </Box>
   );
 };
 export default SubmitJob;
