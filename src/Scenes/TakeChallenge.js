@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Section, Text, Path } from "../Components";
+import { Box, Text, Path } from "../Components";
 import { unit } from "../Appearance";
 
 const TakeChallenge = () => {
   return (
-    <Section full>
-      <Section vertical align-center justify-center full>
+    <Box full-flex>
+      <Box vertical align-center justify-center full-flex>
         <svg
           className="rotating"
           xmlns="http://www.w3.org/2000/svg"
@@ -20,8 +20,8 @@ const TakeChallenge = () => {
           />
         </svg>
         <Text monumental-text>Aguarde</Text>
-      </Section>
-    </Section>
+      </Box>
+    </Box>
   );
 };
 export default TakeChallenge;
