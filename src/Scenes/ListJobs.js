@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Section, Text, Link, Image } from "../Components";
+import { Box, Text, Link, Image } from "../Components";
 
 const ReactMarkdown = require("react-markdown");
 
 const ListJobs = ({ filter, posts }) => {
   return (
-    <Section full flow justify-center>
-      <Section style={{ flex: 0.8 }} vertical>
+    <Box full-flex flow justify-center>
+      <Box style={{ flex: 0.8 }} vertical>
         {(
           (filter &&
             posts.filter(
@@ -16,7 +16,7 @@ const ListJobs = ({ filter, posts }) => {
             )) ||
           posts
         ).map(({ body, title }, index) => (
-          <Section key={title + index} sub-padding vertical bigger-text>
+          <Box key={title + index} sub-padding vertical bigger-text>
             <ReactMarkdown
               source={title}
               renderers={{
@@ -31,10 +31,10 @@ const ListJobs = ({ filter, posts }) => {
                 image: Image
               }}
             />
-          </Section>
+          </Box>
         ))}
-      </Section>
-    </Section>
+      </Box>
+    </Box>
   );
 };
 export default ListJobs;
